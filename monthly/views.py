@@ -28,17 +28,18 @@ def monthly_challenge_by_number(request, month: int):
 
     redirect_path_str = calendar.month_name[month].lower()
     redirect_path = reverse("month-challenge-str", args=[redirect_path_str])
-    print(redirect_path)
 
     return HttpResponseRedirect(redirect_path)
 
 
 # Create your views here.
 def monthly_challenges_list(request):
+    # Creating li tag elements
     html = ""
     for month in challenges:
         url_path = reverse("month-challenge-str", args=[month])
         html += f'<li><a href="{url_path}">{month.capitalize()}</a></li>'
+
     reponse_data = f"<ol>{html}</ol>"
     return HttpResponse(reponse_data)
 
