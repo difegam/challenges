@@ -1,6 +1,6 @@
 import calendar
 
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -24,7 +24,7 @@ challenges = {
 def monthly_challenge_by_number(request, month: int):
 
     if month <= 0 or month > len(calendar.month_name):
-        return HttpResponseNotFound(f"Please enter a valid month. {month} in not supported")
+        raise Http404
 
     redirect_path_str = calendar.month_name[month].lower()
     redirect_path = reverse("month-challenge-str", args=[redirect_path_str])
@@ -40,7 +40,7 @@ def monthly_challenge(request, month: str):
     challenge = challenges.get(month.lower())
 
     if not challenge:
-        return HttpResponseNotFound(f"Please enter a valid month. {month} in not supported")
+        raise Http404
 
     context = {"month": month, "challenge": challenge}
 
